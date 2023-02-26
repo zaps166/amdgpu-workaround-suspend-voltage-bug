@@ -205,6 +205,8 @@ int main(int argc, char *argv[])
     if (!has_pp_override_mask())
         return 0; // Nothing to do
 
+    bool once = false;
+
     for (const auto &entry : filesystem::directory_iterator("/sys/class/drm"))
     {
         if (!entry.is_directory())
@@ -241,7 +243,11 @@ int main(int argc, char *argv[])
         {
             case Mode::BEFORE_SUSPEND:
             {
-                system("killall corectrl_helper -SIGSTOP 2> /dev/null"); // Pause CoreCtrl process before suspend
+                if (!once)
+                {
+                    system("killall corectrl_helper -SIGSTOP 2> /dev/null"); // Pause CoreCtrl process before suspend
+                    once = true;
+                }
 
                 const bool ret = reset_clk_voltage(device_path);
                 cerr << "Reset clock and voltage " << (ret ? "succeeded" : "failed") << " for " << name << endl;
@@ -253,7 +259,11 @@ int main(int argc, char *argv[])
                 const bool ret = upload_pp_table(device_path, pp_table);
                 cerr << "PP table upload " << (ret ? "succeeded" : "failed") << " for " << name << endl;
 
-                system("killall corectrl_helper -SIGCONT 2> /dev/null"); // Resume CoreCtrl process after resetting the SMU
+                if (!once)
+                {
+                    system("killall corectrl_helper -SIGCONT 2> /dev/null"); // Resume CoreCtrl process after resetting the SMU
+                    once = false;
+                }
 
                 break;
             }
