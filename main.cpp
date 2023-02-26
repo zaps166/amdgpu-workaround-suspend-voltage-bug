@@ -259,11 +259,7 @@ int main(int argc, char *argv[])
                 const bool ret = upload_pp_table(device_path, pp_table);
                 cerr << "PP table upload " << (ret ? "succeeded" : "failed") << " for " << name << endl;
 
-                if (!once)
-                {
-                    system("killall corectrl_helper -SIGCONT 2> /dev/null"); // Resume CoreCtrl process after resetting the SMU
-                    once = false;
-                }
+                once = true;
 
                 break;
             }
@@ -273,6 +269,9 @@ int main(int argc, char *argv[])
             }
         }
     }
+
+    if (mode == Mode::AFTER_RESUME && once)
+        system("killall corectrl_helper -SIGCONT 2> /dev/null"); // Resume CoreCtrl process after resetting the SMU
 
     return 0;
 }
