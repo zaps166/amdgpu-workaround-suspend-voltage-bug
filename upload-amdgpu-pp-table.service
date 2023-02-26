@@ -1,6 +1,6 @@
 [Unit]
 Description=Reset SMU for AMD GPUs and resume CoreCtrl helper process
-After=suspend.target
+After=suspend.target hibernate.target
 
 [Service]
 Type=oneshot
@@ -8,4 +8,4 @@ ExecStart=amdgpu-workaround-suspend-voltage-bug resume
 StandardError=syslog
 
 [Install]
-WantedBy=suspend.target
+WantedBy=suspend.target hibernate.target
