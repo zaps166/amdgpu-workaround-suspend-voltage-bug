@@ -1,0 +1,11 @@
+[Unit]
+Description=Reset clock and voltage for AMD GPUs and pause CoreCtrl helper process
+Before=suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=amdgpu-workaround-suspend-voltage-bug suspend
+StandardError=syslog
+
+[Install]
+WantedBy=suspend.target

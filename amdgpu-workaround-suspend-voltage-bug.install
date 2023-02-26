@@ -1,0 +1,9 @@
+post_install() {
+    systemctl enable reset-amdgpu-clk-voltage.service
+    systemctl enable upload-amdgpu-pp-table.service
+}
+
+pre_remove() {
+    systemctl disable reset-amdgpu-clk-voltage.service
+    systemctl disable upload-amdgpu-pp-table.service
+}

@@ -1,0 +1,5 @@
+build/*
+pkg/*
+src/*
+CMakeLists.txt.user*
+*.tar*
