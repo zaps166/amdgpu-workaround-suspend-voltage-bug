@@ -2,7 +2,7 @@ Workaround for AMD GPU driver bug which applies too low voltage after resuming f
 
 **This software is not tested and can cause various issues. Use with care!**
 
-Works on my MSI Radeon RX 6900XT GPU with Linux 6.1.14.
+Works on my MSI Radeon RX 6900XT GPU with Linux 6.1.14. This can trigger another amdgpu bug and crash the driver. The proper patch is already under review and will be applied to kernel soon.
 
 ---
 
